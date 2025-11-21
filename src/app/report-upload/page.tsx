@@ -12,34 +12,59 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useUploadThing } from "@/utils/uploadthing"
+import { UploadCloud } from "lucide-react"
 
 export default function ReportUploadPage() {
     const [file, setFile] = useState<File | null>(null)
+    const [isDragging, setIsDragging] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
     const { startUpload, isUploading } = useUploadThing("imageUploader", {
         onClientUploadComplete: () => {
             toast.success("Report uploaded successfully!")
             setFile(null)
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ""
+            }
         },
         onUploadError: (error: Error) => {
             toast.error(`Upload failed: ${error.message}`)
         },
     })
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files?.[0]
+    const handleFileSelect = (selectedFile: File | undefined) => {
         if (selectedFile) {
             if (!selectedFile.type.startsWith("image/")) {
                 toast.error("Please upload an image file.")
-                e.target.value = "" // Clear the input
                 setFile(null)
             } else {
                 setFile(selectedFile)
             }
-        } else {
-            setFile(null)
         }
+    }
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0]
+        handleFileSelect(selectedFile)
+    }
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(true)
+    }
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(false)
+    }
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(false)
+        const droppedFile = e.dataTransfer.files?.[0]
+        handleFileSelect(droppedFile)
     }
 
     const handleUpload = async () => {
@@ -57,18 +82,51 @@ export default function ReportUploadPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="report">Report Image</Label>
-                            <Input
-                                id="report"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                disabled={isUploading}
-                            />
+                    <div
+                        className={`relative flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${isDragging
+                            ? "border-primary bg-primary/10"
+                            : "border-zinc-300 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                            }`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => fileInputRef.current?.click()}
+                    >
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <UploadCloud className="w-10 h-10 mb-3 text-zinc-400" />
+                            <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                            </p>
+                            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                                SVG, PNG, JPG or GIF (MAX. 4MB)
+                            </p>
                         </div>
-                    </form>
+                        <Input
+                            ref={fileInputRef}
+                            id="report"
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleFileChange}
+                            disabled={isUploading}
+                        />
+                    </div>
+                    {file && (
+                        <div className="mt-4 p-2 bg-zinc-100 dark:bg-zinc-800 rounded-md flex items-center justify-between">
+                            <span className="text-sm truncate max-w-[200px]">{file.name}</span>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setFile(null)
+                                    if (fileInputRef.current) fileInputRef.current.value = ""
+                                }}
+                            >
+                                Remove
+                            </Button>
+                        </div>
+                    )}
                 </CardContent>
                 <CardFooter className="flex justify-end">
                     <Button disabled={!file || isUploading} onClick={handleUpload}>
