@@ -25,13 +25,13 @@ export const ourFileRouter = {
             // This code RUNS ON YOUR SERVER after upload
             console.log("Upload complete for userId:", metadata.userId);
 
-            console.log("file url", file.url);
+            console.log("file url", file.ufsUrl);
 
             // Save to database
             await prisma.medicalReport.create({
                 data: {
                     fileName: file.name,
-                    fileUrl: file.url,
+                    fileUrl: file.ufsUrl,
                     fileSize: file.size,
                     fileType: file.type,
                 },
