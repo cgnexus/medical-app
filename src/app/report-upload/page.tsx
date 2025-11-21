@@ -12,15 +12,23 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
+import { useState } from "react"
 
 export default function ReportUploadPage() {
+    const [file, setFile] = useState<File | null>(null)
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (file) {
-            if (!file.type.startsWith("image/")) {
+        const selectedFile = e.target.files?.[0]
+        if (selectedFile) {
+            if (!selectedFile.type.startsWith("image/")) {
                 toast.error("Please upload an image file.")
                 e.target.value = "" // Clear the input
+                setFile(null)
+            } else {
+                setFile(selectedFile)
             }
+        } else {
+            setFile(null)
         }
     }
 
@@ -47,7 +55,7 @@ export default function ReportUploadPage() {
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                    <Button>Upload</Button>
+                    <Button disabled={!file}>Upload</Button>
                 </CardFooter>
             </Card>
         </div>
