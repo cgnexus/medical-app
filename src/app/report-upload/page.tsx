@@ -13,9 +13,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { useState } from "react"
+import { useUploadThing } from "@/utils/uploadthing"
 
 export default function ReportUploadPage() {
     const [file, setFile] = useState<File | null>(null)
+    const { startUpload, isUploading } = useUploadThing("imageUploader", {
+        onClientUploadComplete: () => {
+            toast.success("Report uploaded successfully!")
+            setFile(null)
+        },
+        onUploadError: (error: Error) => {
+            toast.error(`Upload failed: ${error.message}`)
+        },
+    })
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0]
@@ -30,6 +40,11 @@ export default function ReportUploadPage() {
         } else {
             setFile(null)
         }
+    }
+
+    const handleUpload = async () => {
+        if (!file) return
+        await startUpload([file])
     }
 
     return (
@@ -50,12 +65,15 @@ export default function ReportUploadPage() {
                                 type="file"
                                 accept="image/*"
                                 onChange={handleFileChange}
+                                disabled={isUploading}
                             />
                         </div>
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                    <Button disabled={!file}>Upload</Button>
+                    <Button disabled={!file || isUploading} onClick={handleUpload}>
+                        {isUploading ? "Uploading..." : "Upload"}
+                    </Button>
                 </CardFooter>
             </Card>
         </div>
