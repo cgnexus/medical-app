@@ -1,5 +1,6 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
+import prisma from "@/lib/prisma";
 
 const f = createUploadthing();
 
@@ -25,6 +26,18 @@ export const ourFileRouter = {
             console.log("Upload complete for userId:", metadata.userId);
 
             console.log("file url", file.url);
+
+            // Save to database
+            await prisma.medicalReport.create({
+                data: {
+                    fileName: file.name,
+                    fileUrl: file.url,
+                    fileSize: file.size,
+                    fileType: file.type,
+                },
+            });
+
+            console.log("Saved to database");
 
             // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
             return { uploadedBy: metadata.userId };

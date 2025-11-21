@@ -28,3 +28,12 @@ model Post {
   author    User    @relation(fields: [authorId], references: [id])
   authorId  Int
 }
+
+model MedicalReport {
+  id         Int      @id @default(autoincrement())
+  fileName   String
+  fileUrl    String
+  fileSize   Int
+  fileType   String
+  uploadedAt DateTime @default(now())
+}
