@@ -10,7 +10,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Progress } from "@/components/ui/progress"
 import { toast } from "sonner"
 import { useState, useRef } from "react"
 import { useUploadThing } from "@/utils/uploadthing"
@@ -19,18 +19,24 @@ import { UploadCloud } from "lucide-react"
 export default function ReportUploadPage() {
     const [file, setFile] = useState<File | null>(null)
     const [isDragging, setIsDragging] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const { startUpload, isUploading } = useUploadThing("imageUploader", {
         onClientUploadComplete: () => {
             toast.success("Report uploaded successfully!")
             setFile(null)
+            setUploadProgress(0)
             if (fileInputRef.current) {
                 fileInputRef.current.value = ""
             }
         },
         onUploadError: (error: Error) => {
             toast.error(`Upload failed: ${error.message}`)
+            setUploadProgress(0)
+        },
+        onUploadProgress: (progress) => {
+            setUploadProgress(progress)
         },
     })
 
@@ -112,19 +118,30 @@ export default function ReportUploadPage() {
                         />
                     </div>
                     {file && (
-                        <div className="mt-4 p-2 bg-zinc-100 dark:bg-zinc-800 rounded-md flex items-center justify-between">
-                            <span className="text-sm truncate max-w-[200px]">{file.name}</span>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    setFile(null)
-                                    if (fileInputRef.current) fileInputRef.current.value = ""
-                                }}
-                            >
-                                Remove
-                            </Button>
+                        <div className="mt-4 space-y-2">
+                            <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-md flex items-center justify-between">
+                                <span className="text-sm truncate max-w-[200px]">{file.name}</span>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        setFile(null)
+                                        if (fileInputRef.current) fileInputRef.current.value = ""
+                                    }}
+                                    disabled={isUploading}
+                                >
+                                    Remove
+                                </Button>
+                            </div>
+                            {isUploading && (
+                                <div className="space-y-1">
+                                    <Progress value={uploadProgress} className="h-2" />
+                                    <p className="text-xs text-center text-muted-foreground">
+                                        Uploading... {uploadProgress}%
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     )}
                 </CardContent>
