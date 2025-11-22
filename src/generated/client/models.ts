@@ -11,4 +11,5 @@
 export type * from './models/User'
 export type * from './models/Post'
 export type * from './models/MedicalReport'
+export type * from './models/ReportAnalysis'
 export type * from './commonInputTypes'

@@ -386,7 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Post: 'Post',
-  MedicalReport: 'MedicalReport'
+  MedicalReport: 'MedicalReport',
+  ReportAnalysis: 'ReportAnalysis'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "post" | "medicalReport"
+    modelProps: "user" | "post" | "medicalReport" | "reportAnalysis"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ReportAnalysis: {
+      payload: Prisma.$ReportAnalysisPayload<ExtArgs>
+      fields: Prisma.ReportAnalysisFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReportAnalysisFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReportAnalysisFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>
+        }
+        findFirst: {
+          args: Prisma.ReportAnalysisFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReportAnalysisFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>
+        }
+        findMany: {
+          args: Prisma.ReportAnalysisFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>[]
+        }
+        create: {
+          args: Prisma.ReportAnalysisCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>
+        }
+        createMany: {
+          args: Prisma.ReportAnalysisCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReportAnalysisCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>[]
+        }
+        delete: {
+          args: Prisma.ReportAnalysisDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>
+        }
+        update: {
+          args: Prisma.ReportAnalysisUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReportAnalysisDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReportAnalysisUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReportAnalysisUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReportAnalysisUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportAnalysisPayload>
+        }
+        aggregate: {
+          args: Prisma.ReportAnalysisAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReportAnalysis>
+        }
+        groupBy: {
+          args: Prisma.ReportAnalysisGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportAnalysisGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReportAnalysisCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportAnalysisCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -699,12 +774,33 @@ export const MedicalReportScalarFieldEnum = {
 export type MedicalReportScalarFieldEnum = (typeof MedicalReportScalarFieldEnum)[keyof typeof MedicalReportScalarFieldEnum]
 
 
+export const ReportAnalysisScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  summary: 'summary',
+  patientName: 'patientName',
+  testDate: 'testDate',
+  extractedData: 'extractedData',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReportAnalysisScalarFieldEnum = (typeof ReportAnalysisScalarFieldEnum)[keyof typeof ReportAnalysisScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -721,6 +817,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -775,6 +880,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -873,6 +992,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   post?: Prisma.PostOmit
   medicalReport?: Prisma.MedicalReportOmit
+  reportAnalysis?: Prisma.ReportAnalysisOmit
 }
 
 /* Types for Logging */

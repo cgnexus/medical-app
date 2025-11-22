@@ -54,3 +54,8 @@ export type Post = Prisma.PostModel
  * 
  */
 export type MedicalReport = Prisma.MedicalReportModel
+/**
+ * Model ReportAnalysis
+ * 
+ */
+export type ReportAnalysis = Prisma.ReportAnalysisModel

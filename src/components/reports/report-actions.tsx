@@ -9,7 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Pencil, Trash, Eye, Copy } from "lucide-react"
+import { MoreHorizontal, Pencil, Trash, Eye, Copy, Activity } from "lucide-react"
 import { useState } from "react"
 import { MedicalReport } from "@/app/reports/types"
 import { DeleteReportDialog } from "./delete-report-dialog"
@@ -23,6 +23,24 @@ interface ReportActionsProps {
 export function ReportActions({ report }: ReportActionsProps) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false)
     const [showEditDialog, setShowEditDialog] = useState(false)
+
+    const handleAnalyze = async () => {
+        toast.promise(
+            fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ reportId: report.id }),
+            }).then(async (res) => {
+                if (!res.ok) throw new Error("Analysis failed")
+                return res.json()
+            }),
+            {
+                loading: "Analyzing report...",
+                success: "Report analyzed successfully",
+                error: "Failed to analyze report",
+            }
+        )
+    }
 
     return (
         <>
@@ -49,6 +67,11 @@ export function ReportActions({ report }: ReportActionsProps) {
                     >
                         <Copy className="mr-2 h-4 w-4" />
                         Copy file URL
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleAnalyze}>
+                        <Activity className="mr-2 h-4 w-4" />
+                        Analyze Report
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setShowEditDialog(true)}>

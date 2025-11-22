@@ -1,7 +1,8 @@
+
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MedicalReport } from "./types"
 import { ReportActions } from "@/components/reports/report-actions"
@@ -47,6 +48,21 @@ export const columns: ColumnDef<MedicalReport>[] = [
         header: "Size",
         cell: ({ row }) => {
             return formatFileSize(row.getValue("fileSize"))
+        },
+    },
+    {
+        accessorKey: "analysis",
+        header: "Status",
+        cell: ({ row }) => {
+            const analysis = row.original.analysis
+            return analysis ? (
+                <div className="flex items-center text-emerald-600">
+                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                    <span className="text-xs font-medium">Analyzed</span>
+                </div>
+            ) : (
+                <span className="text-xs text-slate-400">Pending</span>
+            )
         },
     },
     {

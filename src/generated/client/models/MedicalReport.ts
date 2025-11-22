@@ -228,6 +228,7 @@ export type MedicalReportWhereInput = {
   fileSize?: Prisma.IntFilter<"MedicalReport"> | number
   fileType?: Prisma.StringFilter<"MedicalReport"> | string
   uploadedAt?: Prisma.DateTimeFilter<"MedicalReport"> | Date | string
+  analysis?: Prisma.XOR<Prisma.ReportAnalysisNullableScalarRelationFilter, Prisma.ReportAnalysisWhereInput> | null
 }
 
 export type MedicalReportOrderByWithRelationInput = {
@@ -237,6 +238,7 @@ export type MedicalReportOrderByWithRelationInput = {
   fileSize?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
+  analysis?: Prisma.ReportAnalysisOrderByWithRelationInput
 }
 
 export type MedicalReportWhereUniqueInput = Prisma.AtLeast<{
@@ -249,6 +251,7 @@ export type MedicalReportWhereUniqueInput = Prisma.AtLeast<{
   fileSize?: Prisma.IntFilter<"MedicalReport"> | number
   fileType?: Prisma.StringFilter<"MedicalReport"> | string
   uploadedAt?: Prisma.DateTimeFilter<"MedicalReport"> | Date | string
+  analysis?: Prisma.XOR<Prisma.ReportAnalysisNullableScalarRelationFilter, Prisma.ReportAnalysisWhereInput> | null
 }, "id">
 
 export type MedicalReportOrderByWithAggregationInput = {
@@ -283,6 +286,7 @@ export type MedicalReportCreateInput = {
   fileSize: number
   fileType: string
   uploadedAt?: Date | string
+  analysis?: Prisma.ReportAnalysisCreateNestedOneWithoutReportInput
 }
 
 export type MedicalReportUncheckedCreateInput = {
@@ -292,6 +296,7 @@ export type MedicalReportUncheckedCreateInput = {
   fileSize: number
   fileType: string
   uploadedAt?: Date | string
+  analysis?: Prisma.ReportAnalysisUncheckedCreateNestedOneWithoutReportInput
 }
 
 export type MedicalReportUpdateInput = {
@@ -300,6 +305,7 @@ export type MedicalReportUpdateInput = {
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analysis?: Prisma.ReportAnalysisUpdateOneWithoutReportNestedInput
 }
 
 export type MedicalReportUncheckedUpdateInput = {
@@ -309,6 +315,7 @@ export type MedicalReportUncheckedUpdateInput = {
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analysis?: Prisma.ReportAnalysisUncheckedUpdateOneWithoutReportNestedInput
 }
 
 export type MedicalReportCreateManyInput = {
@@ -374,8 +381,77 @@ export type MedicalReportSumOrderByAggregateInput = {
   fileSize?: Prisma.SortOrder
 }
 
+export type MedicalReportScalarRelationFilter = {
+  is?: Prisma.MedicalReportWhereInput
+  isNot?: Prisma.MedicalReportWhereInput
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type MedicalReportCreateNestedOneWithoutAnalysisInput = {
+  create?: Prisma.XOR<Prisma.MedicalReportCreateWithoutAnalysisInput, Prisma.MedicalReportUncheckedCreateWithoutAnalysisInput>
+  connectOrCreate?: Prisma.MedicalReportCreateOrConnectWithoutAnalysisInput
+  connect?: Prisma.MedicalReportWhereUniqueInput
+}
+
+export type MedicalReportUpdateOneRequiredWithoutAnalysisNestedInput = {
+  create?: Prisma.XOR<Prisma.MedicalReportCreateWithoutAnalysisInput, Prisma.MedicalReportUncheckedCreateWithoutAnalysisInput>
+  connectOrCreate?: Prisma.MedicalReportCreateOrConnectWithoutAnalysisInput
+  upsert?: Prisma.MedicalReportUpsertWithoutAnalysisInput
+  connect?: Prisma.MedicalReportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MedicalReportUpdateToOneWithWhereWithoutAnalysisInput, Prisma.MedicalReportUpdateWithoutAnalysisInput>, Prisma.MedicalReportUncheckedUpdateWithoutAnalysisInput>
+}
+
+export type MedicalReportCreateWithoutAnalysisInput = {
+  fileName: string
+  fileUrl: string
+  fileSize: number
+  fileType: string
+  uploadedAt?: Date | string
+}
+
+export type MedicalReportUncheckedCreateWithoutAnalysisInput = {
+  id?: number
+  fileName: string
+  fileUrl: string
+  fileSize: number
+  fileType: string
+  uploadedAt?: Date | string
+}
+
+export type MedicalReportCreateOrConnectWithoutAnalysisInput = {
+  where: Prisma.MedicalReportWhereUniqueInput
+  create: Prisma.XOR<Prisma.MedicalReportCreateWithoutAnalysisInput, Prisma.MedicalReportUncheckedCreateWithoutAnalysisInput>
+}
+
+export type MedicalReportUpsertWithoutAnalysisInput = {
+  update: Prisma.XOR<Prisma.MedicalReportUpdateWithoutAnalysisInput, Prisma.MedicalReportUncheckedUpdateWithoutAnalysisInput>
+  create: Prisma.XOR<Prisma.MedicalReportCreateWithoutAnalysisInput, Prisma.MedicalReportUncheckedCreateWithoutAnalysisInput>
+  where?: Prisma.MedicalReportWhereInput
+}
+
+export type MedicalReportUpdateToOneWithWhereWithoutAnalysisInput = {
+  where?: Prisma.MedicalReportWhereInput
+  data: Prisma.XOR<Prisma.MedicalReportUpdateWithoutAnalysisInput, Prisma.MedicalReportUncheckedUpdateWithoutAnalysisInput>
+}
+
+export type MedicalReportUpdateWithoutAnalysisInput = {
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  fileType?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MedicalReportUncheckedUpdateWithoutAnalysisInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  fileType?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -387,6 +463,7 @@ export type MedicalReportSelect<ExtArgs extends runtime.Types.Extensions.Interna
   fileSize?: boolean
   fileType?: boolean
   uploadedAt?: boolean
+  analysis?: boolean | Prisma.MedicalReport$analysisArgs<ExtArgs>
 }, ExtArgs["result"]["medicalReport"]>
 
 export type MedicalReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -417,10 +494,17 @@ export type MedicalReportSelectScalar = {
 }
 
 export type MedicalReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fileName" | "fileUrl" | "fileSize" | "fileType" | "uploadedAt", ExtArgs["result"]["medicalReport"]>
+export type MedicalReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  analysis?: boolean | Prisma.MedicalReport$analysisArgs<ExtArgs>
+}
+export type MedicalReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type MedicalReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $MedicalReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MedicalReport"
-  objects: {}
+  objects: {
+    analysis: Prisma.$ReportAnalysisPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     fileName: string
@@ -822,6 +906,7 @@ readonly fields: MedicalReportFieldRefs;
  */
 export interface Prisma__MedicalReportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  analysis<T extends Prisma.MedicalReport$analysisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedicalReport$analysisArgs<ExtArgs>>): Prisma.Prisma__ReportAnalysisClient<runtime.Types.Result.GetResult<Prisma.$ReportAnalysisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -874,6 +959,10 @@ export type MedicalReportFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
+  /**
    * Filter, which MedicalReport to fetch.
    */
   where: Prisma.MedicalReportWhereUniqueInput
@@ -892,6 +981,10 @@ export type MedicalReportFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
+  /**
    * Filter, which MedicalReport to fetch.
    */
   where: Prisma.MedicalReportWhereUniqueInput
@@ -909,6 +1002,10 @@ export type MedicalReportFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the MedicalReport
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
   /**
    * Filter, which MedicalReport to fetch.
    */
@@ -958,6 +1055,10 @@ export type MedicalReportFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
+  /**
    * Filter, which MedicalReport to fetch.
    */
   where?: Prisma.MedicalReportWhereInput
@@ -1006,6 +1107,10 @@ export type MedicalReportFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
+  /**
    * Filter, which MedicalReports to fetch.
    */
   where?: Prisma.MedicalReportWhereInput
@@ -1048,6 +1153,10 @@ export type MedicalReportCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the MedicalReport
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
   /**
    * The data needed to create a MedicalReport.
    */
@@ -1096,6 +1205,10 @@ export type MedicalReportUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the MedicalReport
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
   /**
    * The data needed to update a MedicalReport.
    */
@@ -1163,6 +1276,10 @@ export type MedicalReportUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
+  /**
    * The filter to search for the MedicalReport to update in case it exists.
    */
   where: Prisma.MedicalReportWhereUniqueInput
@@ -1189,6 +1306,10 @@ export type MedicalReportDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
+  /**
    * Filter which MedicalReport to delete.
    */
   where: Prisma.MedicalReportWhereUniqueInput
@@ -1209,6 +1330,25 @@ export type MedicalReportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * MedicalReport.analysis
+ */
+export type MedicalReport$analysisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReportAnalysis
+   */
+  select?: Prisma.ReportAnalysisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReportAnalysis
+   */
+  omit?: Prisma.ReportAnalysisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportAnalysisInclude<ExtArgs> | null
+  where?: Prisma.ReportAnalysisWhereInput
+}
+
+/**
  * MedicalReport without action
  */
 export type MedicalReportDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1220,4 +1360,8 @@ export type MedicalReportDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the MedicalReport
    */
   omit?: Prisma.MedicalReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MedicalReportInclude<ExtArgs> | null
 }

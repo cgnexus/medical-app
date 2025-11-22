@@ -30,6 +30,9 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             orderBy: {
                 [sortBy]: sortOrder,
             },
+            include: {
+                analysis: true,
+            },
         }),
         prisma.medicalReport.count(),
     ])

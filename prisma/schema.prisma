@@ -36,4 +36,17 @@ model MedicalReport {
   fileSize   Int
   fileType   String
   uploadedAt DateTime @default(now())
+  analysis   ReportAnalysis?
+}
+
+model ReportAnalysis {
+  id              Int           @id @default(autoincrement())
+  reportId        Int           @unique
+  report          MedicalReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  summary         String
+  patientName     String?
+  testDate        DateTime?
+  extractedData   Json          // Stores the structured data extracted from the report
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
