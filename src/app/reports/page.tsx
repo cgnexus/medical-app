@@ -5,18 +5,19 @@ import prisma from "@/lib/prisma"
 export const dynamic = 'force-dynamic'
 
 interface ReportsPageProps {
-    searchParams: {
+    searchParams: Promise<{
         page?: string
         sortBy?: string
         sortOrder?: string
-    }
+    }>
 }
 
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
-    const page = Number(searchParams.page) || 1
+    const { page: pageParam, sortBy: sortByParam, sortOrder: sortOrderParam } = await searchParams
+    const page = Number(pageParam) || 1
     const pageSize = 10
-    const sortBy = searchParams.sortBy || "uploadedAt"
-    const sortOrder = searchParams.sortOrder || "desc"
+    const sortBy = sortByParam || "uploadedAt"
+    const sortOrder = sortOrderParam || "desc"
 
     // Calculate pagination
     const skip = (page - 1) * pageSize
